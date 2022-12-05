@@ -4,45 +4,49 @@ public class App {
 
     public static void main(String[] args) throws Exception {
         Test test = new Test();
-        // test.CheckChairEmployeeID100();
-        // test.ShouldCompareDeptChairPerson();
-        // test.CheckChairID102AndFacultyID103();
-        // test.CheckProgramNameCorrect();
-        // test.CheckToStringChair();
-        // test.CheckToStringFaculty();
-        // test.CheckToStringUgrad();
-        // test.CheckToStringGrad();
-        // test.HireFaculty();
-        // test.HireFacultyDuplicate();
-        // test.HireMultipleFaculty();
-        // test.AdmitStudent();
-        // test.AdmitStudentDuplicate();
+        test.CheckChairEmployeeID100();
+        test.ShouldCompareDeptChairPerson();
+        test.CheckChairID102AndFacultyID103();
+        test.CheckProgramNameCorrect();
+        test.CheckToStringChair();
+        test.CheckToStringFaculty();
+        test.CheckToStringUgrad();
+        test.CheckToStringGrad();
+        test.HireFaculty();
+        test.HireFacultyDuplicate();
+        test.HireMultipleFaculty();
+        test.AdmitStudent();
+        test.AdmitStudentDuplicate();
         test.AdmitStudentMultiple();
+        test.HireTA();
+        test.HireTADuplicate();
+        test.HireTAMultiple();
+        test.GraduateUndergrad();
+        test.GraduateTA();
     }
 }
 
 class Test {
-    ChairPerson chair = new ChairPerson("Rebert", "Jack", 59, "Male", "Birchmount Road");
+    CSD getCSD() {
+        ChairPerson chair = new ChairPerson("Rebert", "Jack", 59, "Male", "Birchmount Road");
 
-    ProgramDirector compScAdmin = new ProgramDirector("Comp", "Admin", 59, "Male", "Birchmount Road",
-            "Computer Science");
-    ProgramDirector softEndAdmin = new ProgramDirector("softEnd", "Admin", 59, "Male", "Birchmount Road",
-            "Software Engineering");
-    ProgramDirector digitTechAdmin = new ProgramDirector("digitTechAdmin", "Admin", 59, "Male", "Birchmount Road",
-            "Digital Technology");
-    CSD csd = new CSD(chair, compScAdmin, softEndAdmin, digitTechAdmin);
+        ProgramDirector compScAdmin = new ProgramDirector("Comp", "Admin", 59, "Male", "Birchmount Road",
+                "Computer Science");
+        ProgramDirector softEndAdmin = new ProgramDirector("softEnd", "Admin", 59, "Male", "Birchmount Road",
+                "Software Engineering");
+        ProgramDirector digitTechAdmin = new ProgramDirector("digitTechAdmin", "Admin", 59, "Male", "Birchmount Road",
+                "Digital Technology");
+        return new CSD(chair, compScAdmin, softEndAdmin, digitTechAdmin);
+    }
 
     void basicTest() {
-
+        CSD csd = getCSD();
         Faculty f = new Faculty("Elizabeth", "Smith", 53, "Female", "Lawrence Avenue East");
         f.setProgram("Software Engineering");
         UGrad s = new UGrad("ZRyan", "Mark", 35, "Male", "Canlish Road");
         UGrad s2 = new UGrad("Yog", "Shon", 23, "Male", "nariman Road");
 
         try {
-            csd.compScAdmin = compScAdmin;
-            csd.softEndAdmin = softEndAdmin;
-            csd.digitTechAdmin = digitTechAdmin;
             csd.HireFaculty(f);
             csd.AdmitStudent(s, f);
             csd.AdmitStudent(s2, f);
@@ -56,23 +60,23 @@ class Test {
     }
 
     void CheckChairEmployeeID100() {
-        System.out.println(chair.getEmployeeID() == 100 ? "ChairPerson getID Pass" : "ChairPerson getID Fail");
+        CSD csd = getCSD();
+        System.out.println(csd.getChairPerson().getEmployeeID() == 100 ? "ChairPerson getID Pass" : "ChairPerson getID Fail");
     }
 
     void ShouldCompareDeptChairPerson() {
-        System.out.println(
-                csd.getChairPerson().firstName == chair.firstName && csd.getChairPerson().lastName == chair.lastName
-                        ? "ChairPerson getID Pass"
-                        : "ChairPerson getID Fail");
+        CSD csd = getCSD();
+        System.out.println(csd.getChairPerson().getEmployeeID() == 100 ? "ChairPerson getID Pass" : "ChairPerson getID Fail");
         // assertEquals(chair, csd.getChairPerson(), "CS Dept getChairPerson Fail");
     }
 
     void CheckChairID102AndFacultyID103() {
+        CSD csd = getCSD();
         Faculty f = new Faculty("Elizabeth", "Smith", 53, "Female",
                 "Lawrence Avenue East");
         f.setProgram("Computer Science");
         csd.HireFaculty(f);
-        System.out.println(chair.getEmployeeID() == 100 ? "ChairPerson getID Pass"
+        System.out.println(csd.getChairPerson().getEmployeeID() == 100 ? "ChairPerson getID Pass"
                 : "ChairPerson getID Fail");
         System.out.println(f.getEmployeeID() == csd.getFaculty().get(0).employeeId ? "Faculty getID Pass"
                 : "ChairPerson getID Fail");
@@ -131,6 +135,7 @@ class Test {
 
     // @Order(9)
     void HireFaculty() {
+        CSD csd = getCSD();
         Faculty f = new Faculty("Elizabeth", "Smith", 53, "Female", "Lawrence Avenue East");
         f.setProgram("Software Engineering");
         UGrad s = new UGrad("Ryan", "Mark", 35, "Male", "Canlish Road");
@@ -145,13 +150,14 @@ class Test {
 
     // @Order(10)
     void HireFacultyDuplicate() {
+        CSD csd = getCSD();
         Faculty f = new Faculty("Elizabeth", "Smith", 53, "Female", "Lawrence Avenue East");
         f.setProgram("Software Engineering");
         UGrad s = new UGrad("Ryan", "Mark", 35, "Male", "Canlish Road");
         try {
             csd.HireFaculty(f);
             csd.HireFaculty(f);
-            csd.AdmitStudent(s,f);
+            csd.AdmitStudent(s, f);
         } catch (Exception e) {
         }
         System.out.println(csd.getFaculty().get(0).getFullName().equals("Elizabeth, Smith"));
@@ -162,6 +168,7 @@ class Test {
 
     // @Order(11)
     void HireMultipleFaculty() {
+        CSD csd = getCSD();
         Faculty f1 = new Faculty("Elizabeth", "Smith", 53, "Female", "Lawrence Avenue East");
         f1.setProgram("Software Engineering");
         Faculty f2 = new Faculty("Adam", "Tom", 55, "Male", "Danforth Road");
@@ -183,13 +190,14 @@ class Test {
 
     // @Order(12)
     void AdmitStudent() {
+        CSD csd = getCSD();
         Faculty f = new Faculty("Elizabeth", "Smith", 53, "Female", "Lawrence Avenue East");
         f.setProgram("Software Engineering");
         UGrad s = new UGrad("Ryan", "Mark", 35, "Male", "Canlish Road");
         s.isAdvising = true;
         try {
             csd.HireFaculty(f);
-            csd.AdmitStudent(s,f);
+            csd.AdmitStudent(s, f);
         } catch (Exception e) {
             // fail();
         }
@@ -206,13 +214,14 @@ class Test {
 
     // @Test @Order(13)
     void AdmitStudentDuplicate() {
+        CSD csd = getCSD();
         Faculty f = new Faculty("Elizabeth", "Smith", 53, "Female", "Lawrence Avenue East");
         f.setProgram("Software Engineering");
         UGrad s = new UGrad("Ryan", "Mark", 35, "Male", "Canlish Road");
         try {
             csd.HireFaculty(f);
-            csd.AdmitStudent(s,f);
-            csd.AdmitStudent(s,f);
+            csd.AdmitStudent(s, f);
+            csd.AdmitStudent(s, f);
         } catch (Exception e) {
             // fail();
         }
@@ -228,6 +237,7 @@ class Test {
 
     // @Test @Order(14)
     void AdmitStudentMultiple() {
+        CSD csd = getCSD();
         Faculty f1 = new Faculty("Elizabeth", "Smith", 53, "Female", "Lawrence Avenue East");
         f1.setProgram("Software Engineering");
         Faculty f2 = new Faculty("Sean", "Smith", 48, "Male", "Avenue East");
@@ -246,17 +256,17 @@ class Test {
         try {
             csd.HireFaculty(f1);
             csd.HireFaculty(f2);
-            csd.AdmitStudent(s1,f1);
-            csd.AdmitStudent(s2,f1);
-            csd.AdmitStudent(s3,f1);
-            csd.AdmitStudent(s4,f1);
-            csd.AdmitStudent(s5,f1);
-            csd.AdmitStudent(s6,f1);
-            csd.AdmitStudent(s7,f1);
-            csd.AdmitStudent(s3,f1);
-            csd.AdmitStudent(s8,f1);
-            csd.AdmitStudent(s9,f2);
-            csd.AdmitStudent(s10,f2);
+            csd.AdmitStudent(s1, f1);
+            csd.AdmitStudent(s2, f1);
+            csd.AdmitStudent(s3, f1);
+            csd.AdmitStudent(s4, f1);
+            csd.AdmitStudent(s5, f1);
+            csd.AdmitStudent(s6, f1);
+            csd.AdmitStudent(s7, f1);
+            csd.AdmitStudent(s3, f1);
+            csd.AdmitStudent(s8, f1);
+            csd.AdmitStudent(s9, f2);
+            csd.AdmitStudent(s10, f2);
 
         } catch (Exception e) {
             // fail();
@@ -265,7 +275,7 @@ class Test {
         System.out.println(csd.getFaculty().get(0).getStudentList().contains(s1.getId()));
         System.out.println(csd.getFaculty().get(0).getStudentList().contains(s2.getId()));
         System.out.println(csd.getFaculty().get(0).getStudentList().contains(s3.getId()));
-        System.out.println(false==csd.getFaculty().get(0).getStudentList().contains(s4.getId()));
+        System.out.println(false == csd.getFaculty().get(0).getStudentList().contains(s4.getId()));
         System.out.println(csd.getFaculty().get(0).getStudentList().contains(s5.getId()));
         System.out.println(csd.getFaculty().get(0).getStudentList().contains(s6.getId()));
         System.out.println(csd.getFaculty().get(0).getStudentList().contains(s7.getId()));
@@ -274,7 +284,7 @@ class Test {
         System.out.println(csd.getFaculty().get(1).getStudentList().contains(s9.getId()));
         System.out.println(csd.getFaculty().get(1).getStudentList().contains(s10.getId()));
 
-        System.out.println(csd.getStudents().size()==9);
+        System.out.println(csd.getStudents().size() == 9);
 
         // assertTrue(f1.getAdvisingUgrads().contains(s1), "Assign Undergrad to Advisor
         // Failed");
@@ -305,7 +315,195 @@ class Test {
         // Failed");
 
     }
-    
+
+    // @Test @Order(15)
+    void HireTA() {
+        CSD csd = getCSD();
+        Faculty f = new Faculty("Elizabeth", "Smith", 53, "Female", "Lawrence Avenue East");
+        f.setProgram("Software Engineering");
+        Grad s = new Grad("Ryan", "Mark", 35, "Male", "Canlish Road");
+        try {
+            csd.HireFaculty(f);
+            csd.AdmitStudent(s, f);
+            csd.upgradeToAlumnusUGrad(s.getId());
+        } catch (Exception e) {
+            // fail();
+        }
+        System.out.println(csd.getGradStudent().get(0).isTAs);
+        System.out.println(csd.getGradStudent().size() == 1);
+        System.out.println(csd.getStudents().size() == 0);
+        // assertEquals(true, f.getTAs().contains(s), "Admit Undergrad Failed");
+        // assertEquals(s, f.getTAs().get(0), "Admit Undergrad Failed");
+        // assertEquals(s.getAdvisor(), f, "Assign Advisor Undergrad Failed");
+        // assertEquals(1, csd.getNumOfGradStudents(), "Increment UGrad count in Dept
+        // Failed");
+
+    }
+
+    // @Test @Order(16)
+    void HireTADuplicate() {
+        CSD csd = getCSD();
+        Faculty f = new Faculty("Elizabeth", "Smith", 53, "Female", "Lawrence Avenue East");
+        f.setProgram("Software Engineering");
+        Grad s = new Grad("Ryan", "Mark", 35, "Male", "Canlish Road");
+        try {
+            csd.HireFaculty(f);
+            csd.HireTA(s);
+            csd.HireTA(s);
+        } catch (Exception e) {
+            // fail();
+        }
+        System.out.println(csd.getGradStudent().get(0).isTAs);
+        System.out.println(csd.getGradStudent().size() == 1);
+        System.out.println(csd.getStudents().size() == 0);
+        // assertEquals(true, f.getTAs().contains(s), "Admit Undergrad Failed");
+        // assertEquals(s, f.getTAs().get(0), "Admit Undergrad Failed");
+        // assertEquals(s.getAdvisor(), f, "Assign Advisor Undergrad Failed");
+        // assertEquals(1, csd.getNumOfGradStudents(), "Increment UGrad count in Dept
+        // Failed");
+    }
+
+    // @Test @Order(17)
+    void HireTAMultiple() {
+        CSD csd = getCSD();
+        Faculty f1 = new Faculty("Elizabeth", "Smith", 53, "Female", "Lawrence Avenue East");
+        f1.setProgram("Software Engineering");
+        Faculty f2 = new Faculty("Sean", "Smith", 48, "Male", "Avenue East");
+        f2.setProgram("Computer Science");
+        Grad s1 = new Grad("Ryan", "Mark", 35, "Male", "Canlish Road");
+        Grad s2 = new Grad("Jeremy", "Dave", 45, "Male", "Guildwood Parkway");
+        Grad s3 = new Grad("Adam", "Tom", 55, "Male", "Danforth Road");
+        Grad s4 = new Grad("Ryan", "Mark", 35, "Male", "Canlish Road");
+        Grad s5 = new Grad("George", "Hardy", 45, "Male", "Rockwood Drive");
+        Grad s6 = new Grad("Radi", "Aman", 32, "Male", "Tawoon Road");
+        Grad s7 = new Grad("John", "Mark", 27, "Male", "Pizza Road");
+        Grad s8 = new Grad("Perseus", "Jackson", 21, "Male", "Candy Road");
+        Grad s9 = new Grad("Sarah", "Walker", 15, "Female", "Qudra Road");
+        Grad s10 = new Grad("Radi", "Mark", 35, "Male", "Some Road");
+
+        try {
+            csd.HireFaculty(f1);
+            csd.HireFaculty(f2);
+            csd.HireTA(s1);
+            csd.HireTA(s2);
+            csd.HireTA(s3);
+            csd.HireTA(s4);
+            csd.HireTA(s5);
+            csd.HireTA(s6);
+            csd.HireTA(s7);
+            csd.HireTA(s3);
+            csd.HireTA(s8);
+            csd.HireTA(s9);
+            csd.HireTA(s10);
+
+        } catch (Exception e) {
+            // fail();
+        }
+        System.out.println(csd.getGradStudent().get(0).isTAs);
+        System.out.println(csd.getGradStudent().size() == 5);
+        System.out.println(csd.getStudents().size() == 0);
+        // assertTrue(f1.getTAs().contains(s1), "Assign Undergrad to Advisor Failed");
+        // assertTrue(f1.getTAs().contains(s2), "Assign Undergrad to Advisor Failed");
+        // assertTrue(f1.getTAs().contains(s3), "Assign Undergrad to Advisor Failed");
+        // assertTrue(f1.getTAs().contains(s4), "Assign Undergrad to Advisor Failed");
+        // assertTrue(f1.getTAs().contains(s5), "Assign Undergrad to Advisor Failed");
+        // assertTrue(f2.getTAs().contains(s6), "Assign Undergrad to Advisor Failed");
+        // assertTrue(f2.getTAs().contains(s7), "Assign Undergrad to Advisor Failed");
+        // assertTrue(f2.getTAs().contains(s8), "Assign Undergrad to Advisor Failed");
+        // assertFalse(f1.getTAs().contains(s9), "Assign Undergrad to Advisor Failed");
+        // assertTrue(f2.getTAs().contains(s9), "Assign Undergrad to Advisor Failed");
+        // assertTrue(f2.getTAs().contains(s10), "Assign Undergrad to Advisor Failed");
+        // assertEquals(s3.getAdvisor(), f1, "Assign Advisor to Undergrad Failed");
+        // assertEquals(s10.getAdvisor(), f2, "Assign Advisor to Undergrad Failed");
+        // assertEquals(10, csd.getNumOfGradStudents(), "Increment UGrad count in Dept
+        // Failed");
+        // assertEquals(2, csd.getNumOfFaculty(), "Increment Faculty count in Dept
+        // Failed");
+
+    }
+
+    // @Test @Order(18)
+    void GraduateUndergrad() {
+        CSD csd = getCSD();
+        Faculty f = new Faculty("Elizabeth", "Smith", 53, "Female", "Lawrence Avenue East");
+        f.setProgram("Software Engineering");
+        UGrad s = new UGrad("Ryan", "Mark", 35, "Male", "Canlish Road");
+        try {
+            csd.HireFaculty(f);
+            csd.AdmitStudent(s, f);
+            csd.upgradeToAlumnusUGrad(s.getId());
+            ;
+        } catch (Exception e) {
+            // fail();
+        }
+        System.out.println(csd.getGradStudent().get(0).isTAs);
+        System.out.println(csd.getGradStudent().size() == 1);
+        System.out.println(csd.getStudents().size() == 0);
+        // assertFalse(f.getAdvisingUgrads().contains(s), "Graduate Undergrad Failed");
+        // assertEquals(s.getAdvisor(), f, "Remove Advisor Link Failed");
+        // assertEquals(0, csd.getNumOfUGradStudents(), "Decrement UGrad count in Dept
+        // Failed");
+        // assertEquals(0, f.getNumOfAdvisingUGrads(), "Decrement UGrad count in Faculty
+        // Failed");
+    }
+
+    // @Test @Order(19)
+    void GraduateTA() {
+        CSD csd = getCSD();
+        Faculty f1 = new Faculty("Elizabeth", "Smith", 53, "Female", "Lawrence Avenue East");
+        f1.setProgram("Software Engineering");
+        Faculty f2 = new Faculty("Sean", "Smith", 48, "Male", "Avenue East");
+        f2.setProgram("Computer Science");
+        Grad s1 = new Grad("Ryan", "Mark", 35, "Male", "Canlish Road");
+        Grad s2 = new Grad("Jeremy", "Dave", 45, "Male", "Guildwood Parkway");
+        Grad s3 = new Grad("Adam", "Tom", 55, "Male", "Danforth Road");
+        Grad s4 = new Grad("Ryan", "Mark", 35, "Male", "Canlish Road");
+        try {
+            csd.HireFaculty(f1);
+            csd.HireFaculty(f2);
+            csd.AdmitStudent(s1, f1);
+            csd.HireTA(s2);
+            csd.HireTA(s3);
+            csd.upgradeToAlumnusUGrad(s1.getId());
+            csd.HireTA(s4);
+        } catch (Exception e) {
+            // fail();
+        }
+        System.out.println(csd.getGradStudent().get(0).isTAs);
+        System.out.println(csd.getGradStudent().size() == 3);
+        System.out.println(csd.getStudents().size() == 0);
+
+        // assertFalse(f1.getTAs().contains(s1), "Delete Grad Student after graduating
+        // failed");
+        // assertEquals(s1.getAdvisor(), f1, "Remove Grad Advisor Link failed after
+        // graduation");
+        // assertEquals(3, csd.getNumOfGradStudents(), "Decrement Grad count in Dept
+        // Failed");
+        // assertEquals(3, f1.getNumOfTAs(), "Decrement Grad count in Faculty Failed");
+        Grad s5 = new Grad("George", "Hardy", 45, "Male", "Rockwood Drive");
+        Grad s6 = new Grad("Radi", "Aman", 32, "Male", "Tawoon Road");
+        Grad s7 = new Grad("John", "Mark", 27, "Male", "Pizza Road");
+        boolean caught = false;
+        try {
+            csd.HireTA(s5);
+            csd.HireTA(s6);
+            csd.AdmitStudent(s7, f1);
+            csd.upgradeToAlumnusUGrad(s7.getId());
+        } catch (Exception e) {
+            caught = true;
+        }
+        System.out.println(s1.isTAs);
+        System.out.println(csd.getGradStudent().size() == 6);
+        System.out.println(csd.isStudentInList(s1.getId()) == false);
+        // assertTrue(caught, "NoTAException not thrown!");
+        // assertFalse(f1.getTAs().contains(s1), "Delete Grad Student after graduating
+        // failed");
+        // assertEquals(s1.getAdvisor(), f1, "Remove Grad Advisor Link failed after
+        // graduation");
+        // assertEquals(5, csd.getNumOfGradStudents(), "Decrement Grad count in Dept
+        // Failed");
+        // assertEquals(5, f1.getNumOfTAs(), "Decrement Grad count in Faculty Failed");
+    }
 }
 
 class CSD {
@@ -394,14 +592,43 @@ class CSD {
         this.studentList.add(newStudent);
     }
 
+    public void HireTA(Student grdStudent) {
+        for (Student student : gradStudentList) {
+            if (student.firstName.equals(grdStudent.firstName) && student.lastName.equals(grdStudent.lastName)) {
+                System.out.println("Already Exist");
+                return;
+            }
+        }
+        if (grdStudent != null) {
+            removeStudentFromFacultyList(grdStudent.getId());
+            studentList.remove(grdStudent);
+
+            if (gradStudentList.size() >= 150) {
+                return;
+            }
+
+            int noOfTAs = 0;
+            for (Student gStudent : gradStudentList) {
+                if (gStudent.isTAs) {
+                    noOfTAs++;
+                }
+            }
+            if (noOfTAs < 5)
+                grdStudent.isTAs = true;
+            else
+                return;
+            gradStudentList.add(grdStudent);
+        }
+
+    }
+
     public ChairPerson setChairPerson() {
         return new ChairPerson(chairPerson.firstName, chairPerson.lastName, chairPerson.age, chairPerson.gender,
                 chairPerson.address);
     }
 
     public ChairPerson getChairPerson() {
-        return new ChairPerson(chairPerson.firstName, chairPerson.lastName, chairPerson.age, chairPerson.gender,
-                chairPerson.address);
+        return chairPerson;
 
     }
 
@@ -531,6 +758,15 @@ class CSD {
         return studentList;
     }
 
+    public boolean isStudentInList(int studentID) {
+        for (Student student : studentList) {
+            if (student.getId() == studentID) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public List<Student> getGradStudent() {
         return gradStudentList;
     }
@@ -541,13 +777,15 @@ class CSD {
 
     public void removeStudentFromFacultyList(int _studentID) {
         for (Faculty faculty : facultyList) {
+            int id = -1;
             List<Integer> studentListIds = faculty.getStudentList();
-            for (Integer studentId : studentListIds) {
-                if (studentId == _studentID) {
-                    studentListIds.remove(studentId);
-                }
+            for (int i = 0; i < studentListIds.size(); i++) {
+                id = i;
             }
+            if (id >= 0)
+                studentListIds.remove(id);
         }
+
     }
 
     public void upgradeToAlumnusUGrad(int studentID) {
@@ -560,6 +798,7 @@ class CSD {
         if (grdStudent != null) {
             removeStudentFromFacultyList(studentID);
             studentList.remove(grdStudent);
+
             if (gradStudentList.size() >= 150) {
                 return;
             }
