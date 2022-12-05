@@ -1,21 +1,23 @@
 
-
 import java.util.*;
 
 public class MyFirstJavaProgram {
-  CSD mCSD;
-  MyFirstJavaProgram() {
-    System.out.println("Hello World~~~~~~~~~`");
-    ChairPerson chair = new ChairPerson("Rebert", "Jack", 59, "Male", "Birchmount Road");
-    CSD csd = new CSD(chair);
-
-  }
-
   public static void main(String[] args) {
     ChairPerson chair = new ChairPerson("Rebert", "Jack", 59, "Male", "Birchmount Road");
+    Faculty f = new Faculty("Elizabeth", "Smith", 53, "Female", "Lawrence Avenue East");
+    f.setProgram("Software Engineering");
+    UGrad s = new UGrad("Ryan", "Mark", 35, "Male", "Canlish Road");
+
     CSD csd = new CSD(chair);
-    csd.setCh
-    System.out.println("Hello World"); // prints Hello World
+    try {
+      csd.HireFaculty(f);
+      csd.AdmitStudent(s);
+    } catch (Exception e) {
+      // fail();
+    }
+
+    // csd.setCh
+    System.out.println(csd); // prints Hello World
   }
 }
 
@@ -27,29 +29,41 @@ public class CSD {
   private List<Faculty> facultyList;
   private List<Student> studentList;
   private List<Student> gradStudentList;
+  int lastStudentId = 100;
+  int lastEmployeeId = 100;
 
-  public CSD(Object chair) {
-    System.out.println(chair); 
+  public int generateEmpId() {
+    return lastEmployeeId++;
+  }
+
+  public CSD(ChairPerson chair) {
+    chair.employeeId = generateEmpId();
+    setChairPerson(chair);
+  }
+
+  private void setChairPerson(ChairPerson chair) {
+    this.chairPerson = new ChairPerson(chair.firstName, chair.lastName, chair.age, chair.gender,
+        chair.address);
   }
 
   public void AdmitStudent(Student newStudent) throws Exception {
     if (studentList.contains(newStudent))
       return;
 
-    if (facultyList.size() >= 500)
+    if (studentList.size() >= 500)
       throw new Exception("NoSpaceException");
-
+    if (this.facultyList.size() == 0) {
+      throw new Exception("NoFacultyException");
+    }
+    newStudent.setId(this.lastStudentId);
+    this.lastStudentId++;
     this.studentList.add(newStudent);
-
   }
 
   public ChairPerson setChairPerson() {
     return new ChairPerson(chairPerson.firstName, chairPerson.lastName, chairPerson.age, chairPerson.gender,
         chairPerson.address);
-
   }
-
-
 
   public ChairPerson getChairPerson() {
     return new ChairPerson(chairPerson.firstName, chairPerson.lastName, chairPerson.age, chairPerson.gender,
@@ -58,6 +72,8 @@ public class CSD {
   }
 
   public void HireFaculty(Faculty f) {
+    f.employeeId = generateEmpId();
+    this.facultyList.add(f);
   }
 
   public Map<Object, Object> getFaculty() {
@@ -75,6 +91,15 @@ class Person {
   int age;
   String gender;
   String address;
+
+  public void setInfo(String firstName, String lastName, int age, String gender, String address) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.age = age;
+    this.gender = gender;
+    this.address = address;
+
+  }
 
 }
 
@@ -94,12 +119,12 @@ class ProgramDirector extends Administrator {
 
 class ChairPerson extends Administrator {
 
-  public ChairPerson(String rebert, String jack, int i, String male, String birchmount_road) {
+  public ChairPerson(String name, String lastName, int age, String gender, String address) {
     super();
+    this.setInfo(lastName, lastName, age, gender, address);
   }
 
   public int getEmployeeID() {
-    this.employeeId = 100;
     return this.employeeId;
   }
 
@@ -117,6 +142,7 @@ class Faculty extends Academics implements Comparable<Academics> {
 
   public Faculty(String firstName, String lastName, int age, String gender, String address) {
     super();
+    this.setInfo(firstName, lastName, age, gender, address);
   }
 
   @Override
@@ -125,7 +151,6 @@ class Faculty extends Academics implements Comparable<Academics> {
   }
 
   public int getEmployeeID() {
-    this.employeeId = 100;
     return this.employeeId;
   }
 
@@ -144,8 +169,17 @@ class Faculty extends Academics implements Comparable<Academics> {
 }
 
 class Student extends Person implements Comparable<Student> {
-  private String studentId;
+  private int studentId;
   private Faculty assignedFact;
+
+  public Student(String firstName, String lastName, int age, String gender, String address) {
+    super();
+    this.setInfo(firstName, lastName, age, gender, address);
+  }
+
+  public void setId(int id) {
+    studentId = id;
+  }
 
   @Override
   public int compareTo(Student o) {
@@ -156,7 +190,7 @@ class Student extends Person implements Comparable<Student> {
 class UGrad extends Student {
 
   public UGrad(String firstName, String lastName, int age, String gender, String address) {
-    super();
+    super(address, address, age, address, address);
   }
 
   public int getAdvisor() {
@@ -166,7 +200,7 @@ class UGrad extends Student {
 
 class Grad extends Student {
   public Grad(String firstName, String lastName, int age, String gender, String address) {
-    super();
+    super(address, address, age, address, address);
   }
 
 }
