@@ -1140,7 +1140,7 @@ class CSD {
         System.out.println("Faculty~~~~~~~~~~~~");
         for (Faculty faculty : facultyList) {
             System.out.println(faculty.getInfo());
-            for (Integer student : faculty.getStudentList()) {
+            for (Student student : faculty.getStudentList()) {
                 System.out.println("studentId = " + student);
             }
         }
@@ -1194,7 +1194,7 @@ class CSD {
         }
         newStudent.setId(generateStudentId());
         newStudent.setFaculty(assignedFact.employeeId);
-        assignedFact.setStudent(newStudent.getId());
+        assignedFact.setStudent(newStudent);
         this.studentList.add(newStudent);
     }
 
@@ -1419,7 +1419,7 @@ class CSD {
     public void removeStudentFromFacultyList(int _studentID) {
         for (Faculty faculty : facultyList) {
             int id = -1;
-            List<Integer> studentListIds = faculty.getStudentList();
+            List<Student> studentListIds = faculty.getStudentList();
             for (int i = 0; i < studentListIds.size(); i++) {
                 id = i;
             }
@@ -1528,7 +1528,7 @@ class ChairPerson extends Administrator {
 }
 
 class Faculty extends Academics implements Comparable<Academics> {
-    private List<Integer> assignedStudents = new ArrayList<Integer>();
+    private List<Student> assignedStudents = new ArrayList<Student>();
     private List<Grad> assignedGrads = new ArrayList<Grad>();
     private double salary;
 
@@ -1537,11 +1537,11 @@ class Faculty extends Academics implements Comparable<Academics> {
         this.setInfo(firstName, lastName, age, gender, address);
     }
 
-    public void setStudent(int Id) {
+    public void setStudent(Student Id) {
         this.assignedStudents.add(Id);
     }
 
-    public List<Integer> getStudentList() {
+    public List<Student> getStudentList() {
         return assignedStudents;
     }
 
@@ -1568,6 +1568,18 @@ class Faculty extends Academics implements Comparable<Academics> {
 
     public double getSalary() {
         return this.salary;
+    }
+    public List<Student> getAdvisingUgrads(){
+        ArrayList<String> sortList = new ArrayList<String>();
+        for (Student student : assignedStudents) {
+            if (student.isAdvising)
+                sortList.add(student.getFullName());
+        }
+        Collections.sort(sortList);
+        for (String list : sortList) {
+            System.out.println(list);
+        }
+        return assignedStudents;
     }
 
 }
