@@ -1,5 +1,4 @@
-
-
+package PE2;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.*;
@@ -7,13 +6,6 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-
-import CSD;
-import ChairPerson;
-import Faculty;
-import Grad;
-import ProgramDirector;
-import UGrad;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class CSDTest {
@@ -29,7 +21,7 @@ class CSDTest {
     void ShouldCompareDeptChairPerson(){
         ChairPerson chair = new ChairPerson("Rebert", "Jack", 59, "Male", "Birchmount Road");
         CSD csd = new CSD(chair);
-        assertEquals(chair.firstName, csd.getChairPerson().firstName, "CS Dept getChairPerson Fail");
+        assertEquals(chair, csd.getChairPerson(), "CS Dept getChairPerson Fail");
     }
     @Test
     @Order(3)
@@ -143,7 +135,6 @@ class CSDTest {
         Faculty f = new Faculty("Elizabeth", "Smith", 53, "Female","Lawrence Avenue East");
         f.setProgram("Software Engineering");
         UGrad s = new UGrad("Ryan", "Mark", 35, "Male", "Canlish Road");
-        s.isAdvising = true;
         try{
             csd.HireFaculty(f);
             csd.AdmitStudent(s);
